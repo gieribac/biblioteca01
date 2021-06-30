@@ -9,12 +9,11 @@ Validar que el genero sea: aventuras, terror o fantasia
 Crea una funcion que muestre todos los libros
 Crea una funcion que muestre los autores ordenados alfabeticamente
 Crea una funcion que pida un genero y muestre la informacion de los libros que pertenezcan a ese genero usando un metodo que devuelve la informacion */
-
 const expresiones = { //www.regextester.com
-    year_: /^\d{4}$/, // validar numeros de 4 digitos
-    author_:  /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos
-    title_: /^[a-zA-ZÀ-ÿ\s\d]{1,40}$/, // Letras y espacios, pueden llevar acentos y numeros
-    genre_: /^(aventuras|terror|fantasía|fantasia)$/i, // Validar que el genero sea: aventuras, terror o fantasia
+    year: /^\d{4}$/, // validar numeros de 4 digitos
+    author:  /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos
+    title: /^[a-zA-ZÀ-ÿ\s\d]{1,40}$/, // Letras y espacios, pueden llevar acentos y numeros
+    genre: /^(aventuras|terror|fantasía|fantasia)$/i, // Validar que el genero sea: aventuras, terror o fantasia
 }
 
 class Libro {
@@ -30,40 +29,26 @@ class Libro {
 }
 
 const lista_libros = () => { //funcion que ingresa todos los libros
-    let libros=[];
-    let title;
-    let author;
-    let genre;
-    let year;
+    let libros=[], title, author, genre, year;
+    const pide_verifica = (cadena,obj_item) => {
+        fail='', verifica;
+        do {
+            item=prompt(`${fail}Ingrese el ${cadena} del libro ${i}:`); 
+            console.log(obj_item)
+            verifica=expresiones.obj_item.test(item);
+            if (item===undefined || item===null) verifica=false;
+            fail="Error. ";          
+        }while (!verifica)
+        return item;
+    }
     console.log('Se pediran los datos de los libros');
     for (var i = 1; i < 4; i++) {
-        title=prompt(`ingrese el título del libro${i}:`);
-        ver=expresiones.title_.test(title);
-        while (ver==false){
-            title=prompt(`¡Titulo invalido!, ingrese de nuevo el título del libro${i}:`);
-            ver=expresiones.title_.test(title);
-        }
-        author = prompt(`ingrese el autor del libro${i}:`);
-        ver=expresiones.author_.test(author);
-        while (ver==false){
-            author=prompt(`¡Autor invalido!, ingrese de nuevo el autor del libro${i}:`);
-            ver=expresiones.author_.test(author);
-        }
-        year = prompt(`ingrese el año del libro${i}:`);
-        ver=expresiones.year_.test(year);
-        while (ver==false){
-            year=prompt(`¡Año invalido!, ingrese de nuevo el año del libro${i}:`);
-            ver=expresiones.year_.test(year);
-        }        
-        genre = prompt(`ingrese el género del libro (aventuras, terror o fantasia)${i}:`);
-        ver=expresiones.genre_.test(genre);
-        while (ver==false){
-            genre=prompt(`¡Género invalido!, ingrese de nuevo el género del libro${i}:`);
-            ver=expresiones.genre_.test(genre);
-        }
+        title=pide_verifica ('título',title);
+        author=pide_verifica ('autor',author);
+        year=pide_verifica ('año',year);
+        genre=pide_verifica ('género (aventuras, terror o fantasia)',genre);
         const libro = new Libro(title, author, year, genre);
         libros.push(libro);
-
     }
     return libros;
 }
@@ -103,11 +88,12 @@ listalibros=lista_libros();
 })(listalibros);
 
 (function(listalibros){//pide genero y muestre la informacion de los libros que pertenezcan a ese genero
-    genre_p=prompt('Ingrese un genero (aventuras, terror o fantasia) \npara filtrar libros correspondientes:');
-    ver=expresiones.genre_.test(genre_p);
-    while (ver==false){
+    genre_p=prompt('Ingrese un genero (aventuras, terror o fantasia) \npara filtrar libros correspondientes:')+'';
+    if (genre_p===undefined) genre_p='';
+    ver=expresiones.genre.test(genre_p);
+    while (!ver){
         genre_p=prompt(`¡Género invalido!, ingrese de nuevo:`);
-        ver=expresiones.genre_.test(genre_p);
+        ver=expresiones.genre.test(genre_p);
     };
     console.log(`libros filtrados por el genero ${genre_p}`);
     for (const key in listalibros) { 
