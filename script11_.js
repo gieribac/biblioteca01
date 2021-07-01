@@ -29,13 +29,12 @@ class Libro {
 }
 
 const lista_libros = () => { //funcion que ingresa todos los libros
-    let libros=[], title, author, genre, year;
+    var libros=[], title, author, genre, year;
     const pide_verifica = (cadena,obj_item) => {
-        fail='', verifica;
+        fail='', verifica=false;
         do {
             item=prompt(`${fail}Ingrese el ${cadena} del libro ${i}:`); 
-            console.log(obj_item)
-            verifica=expresiones.obj_item.test(item);
+            verifica=expresiones[obj_item].test(item);
             if (item===undefined || item===null) verifica=false;
             fail="Error. ";          
         }while (!verifica)
@@ -43,24 +42,24 @@ const lista_libros = () => { //funcion que ingresa todos los libros
     }
     console.log('Se pediran los datos de los libros');
     for (var i = 1; i < 4; i++) {
-        title=pide_verifica ('título',title);
-        author=pide_verifica ('autor',author);
-        year=pide_verifica ('año',year);
-        genre=pide_verifica ('género (aventuras, terror o fantasia)',genre);
+        title=pide_verifica ('título','title');
+        author=pide_verifica ('autor','author');
+        year=pide_verifica ('año','year');
+        genre=pide_verifica ('género (aventuras, terror o fantasia)','genre');
         const libro = new Libro(title, author, year, genre);
         libros.push(libro);
     }
     return libros;
 }
 const ordenamiento = (unaLista,indice) => {
-    intercambios = true;
-    numPasada = unaLista.length-1;
+    var intercambios = true;
+    var numPasada = unaLista.length-1;
     while ((numPasada > 0) && intercambios){
       intercambios = false
       for (i=0;i<numPasada;i++){
         if (unaLista[i][indice] > unaLista[i+1][indice]){
           intercambios = true;
-          aux = unaLista[i];
+          var aux = unaLista[i];
           unaLista[i] = unaLista[i+1];
           unaLista[i+1] = aux;
         }
@@ -80,7 +79,7 @@ listalibros=lista_libros();
 })(listalibros); //imprimir todos los libros 
 
 (function(libros){ //imprimir autores ordenados alfabeticamente
-    libros_= ordenamiento(libros,'author');
+    var libros_= ordenamiento(libros,'author');
     console.log('autores ordenados alfabeticamente');
     for (const key in libros_) { 
         console.log(libros_[key]['author']); 
@@ -88,9 +87,9 @@ listalibros=lista_libros();
 })(listalibros);
 
 (function(listalibros){//pide genero y muestre la informacion de los libros que pertenezcan a ese genero
-    genre_p=prompt('Ingrese un genero (aventuras, terror o fantasia) \npara filtrar libros correspondientes:')+'';
+    var genre_p=prompt('Ingrese un genero (aventuras, terror o fantasia) \npara filtrar libros correspondientes:')+'';
     if (genre_p===undefined) genre_p='';
-    ver=expresiones.genre.test(genre_p);
+    var ver=expresiones.genre.test(genre_p);
     while (!ver){
         genre_p=prompt(`¡Género invalido!, ingrese de nuevo:`);
         ver=expresiones.genre.test(genre_p);
